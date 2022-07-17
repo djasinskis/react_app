@@ -1,38 +1,220 @@
 .App {
+  padding: 50px;
+}
+
+.container {
+  width: 1000px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.j-center {
+  justify-content: center;
+}
+
+.space-btw {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.grow1 {
+  flex: 1
+}
+
+.grow3 {
+  flex: 3
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.p-10 {
+  padding: 10px;
+}
+
+.p-50{
+    padding: 50px
+}
+
+.text-center {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.toolbar {
+  display: flex;
+  padding: 10px;
+  background-color: #f1f1f1;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.toolbar a {
+  margin-left: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+.char {
+  border-radius: 5px;
+  box-shadow: 2px -2px 5px gray;
+  width: 250px;
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.char img {
+  width: 100%;
+}
+
+.singleItem {
+  background-color: #f1f1f1;
+  margin-top: 10px;
+}
+
+.singleItem img {
+  width: 70px;
+}
+.monster{
+  box-shadow: 2px -2px 5px gray;
+  border-radius: 5px;
+    width: 250px;
+      background-color: #f1f1f1;
+      margin: 10px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+}
+
+.arena{
+  background-color: rgb(245, 155, 71);
+}
+
+.Arena{
+    box-shadow: 2px -2px 5px gray;
+      width: 150px;
+      height: 35px;
+      border: none;
+      border-radius: 15px;
+      background-color: red;
+      text-align: center;
+      text-decoration: none;
+      color: palegoldenrod;
+      font-size: 1.2em;
+}
+.Main{
+  box-shadow: 2px -2px 5px gray;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgb(245, 245, 121);
+    text-align: center;
+    text-decoration: none;
+    color: rgb(45, 43, 25);
+    font-size: 1.2em;
+}
+
+.Shop{
+  box-shadow: 2px -2px 5px gray;
+    width: 150px;
+    height: 35px;
+    border: none;
+    border-radius: 15px;
+    background-color: steelblue;
+    text-align: center;
+    text-decoration: none;
+    color: palegoldenrod;
+    font-size: 1.2em;
+}
+.hpwrapper {
+  height: 15px;
+  width: 100%;
+  background-color: gray;
+}
+
+.hpbar{
+  height: 100%;
+  width: 100%;
+  background-color: green;
+}
+
+.Monsterhpwrapper {
+    height: 15px;
+      width: 100%;
+      background-color: gray;
+}
+.Monsterhpbar{
+    height: 100%;
+      width: 100%;
+      background-color: green;
+}
+
+.attackBtn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attackBtn button{
+  box-shadow: 2px -2px 5px gray;
+  width: 150px;
+  height: 75px;
+  border: none;
+  border-radius: 15px;
+
+
+}
+.modal {
+  z-index: 100;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* modal blur parameters */
+  backdrop-filter: blur(13px);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modal div{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 85%;
+  
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal button{
+  box-shadow: 2px -2px 5px gray;
+    width: 150px;
+    height: 75px;
+    border: none;
+    border-radius: 15px;
+    margin-top: 25px;
 }
