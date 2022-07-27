@@ -1,35 +1,34 @@
-import {useContext} from 'react';
-import {Link} from "react-router-dom";
+import { useContext } from "react";
+import {Link} from "react-router-dom"
 import mainContext from "../context/mainContext";
-import gameData from "../assets/gameData";
+import {useNavigate} from 'react-router-dom'
+function Toolbar(){
 
-const Toolbar = () => {
-    const {gold,setMonster,setModal,monster,setMonsterHP} = useContext(mainContext)
-
-    function gotoArena() {
-
-          let randomNumber = Math.floor(Math.random()*gameData.monsters.length).toFixed(0)
-        setMonster(gameData.monsters[randomNumber])
-        
-        setModal(true)
-        console.log(monster)
-      
-        
+    const {currentUser,setLoggedIn, conversations, setLoginError,conversationNumber, setConversationNumber} = useContext(mainContext)
+    const nav = useNavigate()
+    setConversationNumber(conversations.length)
+    function LogOut(){
+        setLoginError("")
+        setLoggedIn(false)
+        nav("/login")
     }
-
-    return (
-        
-        <div className="d-flex space-btw toolbar">
-            <Link className='Main' to="/">Main</Link>
-            <Link className='Shop' to="/shop">Shop</Link>
+    return( 
+        <div className="toolbar">
+            <div className="d-flex j-center">
+                <Link to='/'> Register new User</Link>
+            <button className="logoutbutton" onClick={LogOut}>Log Out</button>
+            </div>
+            <div className="loggedAs">Logged as: <span>{currentUser.username}</span></div>
 
             <div>
-                Gold: {gold}
+            <Link to='/allusers'>All users</Link>
+            <Link to='/profile'>Profile</Link>
+            <Link to='/conversations'>Conversations ({conversationNumber})</Link>
+
             </div>
-            <Link className='Arena' onClick={gotoArena} to="/arena">Arena</Link>
-            </div>
-      
-    );
-};
+            
+        </div>
+    )
+}
 
 export default Toolbar;

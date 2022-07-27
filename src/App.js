@@ -1,74 +1,81 @@
 import './App.css';
-import {useState} from "react";
+
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import mainContext from "./context/mainContext";
-import SelectCharacterPage from "./pages/SelectCharacterPage";
-import MainMenuPage from "./pages/MainMenuPage";
-import ShopPage from "./pages/ShopPage";
-import ArenaPage from './pages/ArenaPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import ProfilePage from './pages/ProfilePage';
+import mainContext from './context/mainContext'
+import { useState } from 'react';
+import AllUsersPage from './pages/AllUsersPage';
+import Toolbar from './components/Toolbar';
+import UserProfilePage from './pages/UserProfilePage';
+import ConversationPage from './pages/ConversationPage';
+
+
 
 function App() {
-    const [player, setPlayer] = useState(null)
-    const [monster,setMonster] = useState(null)
-    const [gold, setGold] = useState(0)
-    const [inventory, setInventory] = useState([])
-    const [equipWeapon ,setEquipWeapon] = useState(false)
-    const [maxDamage, setMaxdamage] = useState(0)
-    const [modal,setModal] = useState(true)
-    const [playerHP, setPlayerHP] = useState(0)
-    const [monsterHP, setMonsterHP] = useState(0)
-    const [playerHPbar, setPlayerHPbar ] = useState(100)
-    const [monsterHPbar, setMonsterHPbar ] = useState(100)
-    const [monMaxDmg, setMonMaxDmg] = useState(0)
-    
+const [error,setError] = useState("")
+const [loginError, setLoginError] = useState("")
+const [users, setUsers] = useState([])
+const [loggedIn, setLoggedIn] = useState(false)
+const [currentUser,setCurrentUser] = useState(null)
+const [msgModal, setMsgModal] = useState(false)
+const [msgId, setMsgId] = useState(0)
+const [conversations, setConversations] = useState([])
+const [conversationNumber, setConversationNumber] =useState(0)
+const [chatModal, setChatModal] = useState(false)
+const [showConversation, setShowConversations] = useState(false)
+const state = {
+  error,
+  setError,
+  users,
+  setUsers,
+  loggedIn,
+  setLoggedIn,
+  currentUser,
+  setCurrentUser,
+  loginError,
+  setLoginError,
+  msgModal, 
+  setMsgModal,
+  msgId, 
+  setMsgId,
+  conversations, 
+  setConversations,
+  chatModal, 
+  setChatModal,
+  showConversation, 
+  setShowConversations,
+  conversationNumber, 
+  setConversationNumber
 
-    const values = {
-        player,
-        setPlayer,
-        gold,
-        setGold,
-        inventory,
-        setInventory,
-        monster,
-        setMonster,
-        maxDamage,
-        setMaxdamage,
-        equipWeapon,
-        setEquipWeapon,
-        modal,
-        setModal, 
-        playerHP, 
-        setPlayerHP,
-        monsterHP, 
-        setMonsterHP,
-        playerHPbar, 
-        setPlayerHPbar,
-        monsterHPbar, 
-        setMonsterHPbar,
-        monMaxDmg,
-        setMonMaxDmg
-    }
-
-    return (
-        <mainContext.Provider value={values}>
-
-            <div className="App">
-
-                <BrowserRouter>
-
-                    <Routes>
-                        <Route path="/" element={<SelectCharacterPage/>}/>
-                        <Route path="/menu" element={<MainMenuPage/>}/>
-                        <Route path="/shop" element={<ShopPage/>}/>
-                        <Route path="/arena" element={<ArenaPage/>}/>
-                    </Routes>
-                </BrowserRouter>
-            </div>
-
-        </mainContext.Provider>
-    );
 }
 
+    return (
+
+      <mainContext.Provider value={state}>
+
+            <div className="App">
+              <BrowserRouter>
+              {loggedIn && <Toolbar/>}
+                <Routes>
+                  <Route path='/' element={<RegisterPage />}/>
+                  <Route path='/login' element={<LoginPage />}/>
+                  <Route path='/profile' element={<ProfilePage />}/>
+                  <Route path='/allusers' element={<AllUsersPage />}/>
+                  <Route path='/user/:id' element={<UserProfilePage />}/>
+                  <Route path='/conversations' element={<ConversationPage/>}/>
+              
+
+
+                </Routes>
+
+              </BrowserRouter>  
+            </div>
+</mainContext.Provider>
+    );
+
+}
 export default App;
 
 
