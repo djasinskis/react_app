@@ -1,78 +1,69 @@
+import { BrowserRouter, Routes,Route } from 'react-router-dom';
 import './App.css';
-
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import io from "socket.io-client"
+import { useEffect, useState } from 'react';
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import ProfilePage from './pages/ProfilePage';
 import mainContext from './context/mainContext'
-import { useState } from 'react';
-import AllUsersPage from './pages/AllUsersPage';
-import Toolbar from './components/Toolbar';
-import UserProfilePage from './pages/UserProfilePage';
-import ConversationPage from './pages/ConversationPage';
+import MoviePage from './pages/MoviePage';
 
+
+
+
+
+const socket = io.connect("http://localhost:4000")
 
 
 function App() {
-const [error,setError] = useState("")
-const [loginError, setLoginError] = useState("")
-const [users, setUsers] = useState([])
-const [loggedIn, setLoggedIn] = useState(false)
-const [currentUser,setCurrentUser] = useState(null)
-const [msgModal, setMsgModal] = useState(false)
-const [msgId, setMsgId] = useState(0)
-const [conversations, setConversations] = useState([])
-const [conversationNumber, setConversationNumber] =useState(0)
-const [chatModal, setChatModal] = useState(false)
-const [showConversation, setShowConversations] = useState(false)
-const state = {
-  error,
-  setError,
-  users,
-  setUsers,
-  loggedIn,
-  setLoggedIn,
-  currentUser,
-  setCurrentUser,
-  loginError,
-  setLoginError,
-  msgModal, 
-  setMsgModal,
-  msgId, 
-  setMsgId,
-  conversations, 
-  setConversations,
-  chatModal, 
-  setChatModal,
-  showConversation, 
-  setShowConversations,
-  conversationNumber, 
-  setConversationNumber
+      const [user,setUser] = useState(null)
+      const [movies, setMovies] = useState([])
+      const [userAge,setUserAge] = useState(0)
+      const [selectedSeats, setSelectedSeats] = useState([])
+      const [regMsg, setRegMsg] = useState('')
+    
+      
+      
 
-}
+ useEffect(  () =>{
+    socket.on("movieTime", data =>{
+      
+      
+      const filteredMovies = data.filter(x=> x.viewerAge< userAge)
+      setMovies(filteredMovies)
+      
+    })
+  
+    socket.on("login", user =>{
+      setUser(user)
+    })
+    
+ },[userAge])
 
+console.log(movies)
     return (
+      
+            <div className="App" >
+            <mainContext.Provider value={{socket,setUser,movies,user,setUserAge,userAge,selectedSeats,setSelectedSeats,setRegMsg,regMsg,}}>  
+                  <BrowserRouter>
+                        <Routes>
 
-      <mainContext.Provider value={state}>
+                            <Route path='/' element={<LoginPage/>}/>
+                            <Route path='/movies' element={<MoviePage/>}/>
+                        
 
-            <div className="App">
-              <BrowserRouter>
-              {loggedIn && <Toolbar/>}
-                <Routes>
-                  <Route path='/' element={<RegisterPage />}/>
-                  <Route path='/login' element={<LoginPage />}/>
-                  <Route path='/profile' element={<ProfilePage />}/>
-                  <Route path='/allusers' element={<AllUsersPage />}/>
-                  <Route path='/user/:id' element={<UserProfilePage />}/>
-                  <Route path='/conversations' element={<ConversationPage/>}/>
+                        </Routes>
               
+              
+              
+                  </BrowserRouter>
 
 
-                </Routes>
 
-              </BrowserRouter>  
+            </mainContext.Provider>
+              
+           
+     
             </div>
-</mainContext.Provider>
+
     );
 
 }

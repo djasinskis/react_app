@@ -1,40 +1,88 @@
-import { useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import mainContext from "../context/mainContext";
+import React from 'react'
+import { useContext } from 'react';
+import { useRef } from 'react';
+import mainContext from '../context/mainContext';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const LoginPage = () => {
-    const {loginError, users,setLoggedIn,setCurrentUser,setLoginError} = useContext(mainContext)
-    const usernameRef  = useRef()
-    const passwordRef = useRef()
-    const nav = useNavigate()
+  const {socket,setUser,setUserAge,regMsg,setRegMsg} = useContext(mainContext)
+  const  nav = useNavigate()
+  const nameRef = useRef()
+  const passOneRef = useRef()
+  const passTwoRef = useRef()
+  const ageRef = useRef()
 
-function login(){
-    const user = {
-       
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
+  const loginNameRef = useRef()
+  const loginPassRef = useRef()
+
+  const http =  async (url,data) => {
+      const options = {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+
+       const res = await fetch('http://localhost:4000' +url,options)
+  return res.json()
+  }
+
+    const register = async () => {
+      const user = {
+        username: nameRef.current.value,
+        passOne: passOneRef.current.value,
+        passTwo: passTwoRef.current.value,
+        age: ageRef.current.value,
+      }
+      const result = await http('/register', user)
+      setRegMsg(result.message)
+      console.log(result)
     }
+    const login = async () => {
+      const user = {
+        username: loginNameRef.current.value,
+        password: loginPassRef.current.value,
+       
+      }
+      const result = await http('/login', user)
+      console.log(result)
+      if(result) {
+        setUser(result.data)
+      setUserAge(result.data.age)
+      console.log(result.data.age)
+        socket.emit('login', result.data)
+        nav("/movies")
+      }
+    }
+ 
+  return (
+    <div className='d-flex'>
 
-if(!users.find(x => x.username === user.username && x.password === user.password))
-return setLoginError("Username not found!")
+      <div className="grow1 d-flex j-center a-center flex-column register">
+          <h1>Register</h1>
+          <input ref={nameRef} type="text" placeholder='Name' />
+          <input ref={passOneRef} type="text" placeholder='Password' />
+          <input ref={passTwoRef} type="text" placeholder='Repeat password' />
+          <input ref={ageRef} type="number" placeholder='Enter your age' />
+          <button onClick={register}>Register</button>
 
-const loggedUser = users.find(x => x.username === user.username && x.password === user.password)
+          {regMsg && <h2>{regMsg} </h2>}
+          
+          
+      </div>
+      
+      <div className="grow1 d-flex j-center a-center flex-column login">
+        <h1>Login</h1>
+        <input ref={loginNameRef} type="text" placeholder='Enter your Name'/>
+        <input ref={loginPassRef} type="text" placeholder='Enter Password'/>
+        <button onClick={login}>Login</button>
+      </div>
 
-
-setCurrentUser(loggedUser)
-setLoggedIn(true)
-nav("/profile")
-}
-    return(
-        <div className="RegisterPage">
-           <h2>Login</h2>
-           <input ref={usernameRef} type="text" placeholder="Enter username" />
-           <input ref={passwordRef} type="text" placeholder="Enter password" />
-           <button onClick={login} className="regbutton">Login</button>
-
-           <h2>{loginError}</h2>
-        </div>
-    )
+    </div>
+  )
 }
 
 export default LoginPage;
